@@ -13,7 +13,7 @@ object TimeWindow {
     def main(args: Array[String]): Unit = {
         val spark: SparkSession = SparkSession.builder()
             .master("local[*]")
-            .appName("WordCount")
+            .appName("TimeWindow")
             .getOrCreate()
         import spark.implicits._
         val accesses = spark.read.format("csv")
@@ -41,7 +41,9 @@ object TimeWindow {
         val accessWindow = Window.partitionBy("user", "website").orderBy("time")
         val result = accesses
                 .withColumn("lag", lag(accesses("time"), 1).over(accessWindow))
-                .withColumn("diff", when(col("time").isNull, lit(0)).otherwise(col("time")) - when(col("lag").isNull, lit(0)).otherwise(col("lag")))
+                .withColumn("diff", when(col("time").isNull, lit(0))
+                    .otherwise(col("time")) - when(col("lag").isNull, lit(0))
+                    .otherwise(col("lag")))
                 .filter($"diff" > 1)
                 .drop("lag", "diff")
         result.show()
