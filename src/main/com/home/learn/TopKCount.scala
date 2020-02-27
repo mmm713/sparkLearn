@@ -19,11 +19,12 @@ object TopKCount {
             .load("src/main/resources/topk.csv")
             .withColumn("count", 'Count.cast(IntegerType))
             .as[Record]
+        //spark dataSet方法
         val recSum = records.groupBy($"user", $"word").agg(sum("count") as "count")
         val orderWindow = Window.partitionBy("user").orderBy(desc("count"))
         val topKCount = recSum.withColumn("rank", rank over orderWindow).filter($"rank" < 3)
         topKCount.drop("rank").show()
-
+        //sparkSql 方法
         records.createOrReplaceTempView("records")
         val result = records.sqlContext
             .sql("select user, word, count from (select user, word, sum(count) as count, " +
