@@ -14,6 +14,7 @@ object TopKCount {
             .appName("WordCount")
             .getOrCreate()
         import spark.implicits._
+        spark.sparkContext.setLogLevel("ERROR")
         val records = spark.read.format("csv")
             .option("header", "true")
             .load("src/main/resources/topk.csv")
