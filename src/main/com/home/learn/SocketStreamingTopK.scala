@@ -1,9 +1,9 @@
-package main.com.home.learn
+package com.home.learn
 
 import java.sql.Timestamp
 
-import main.com.home.learn.app.WordCountTopK
-import main.com.home.learn.model.{WordCount, WordInfo}
+import com.home.learn.app.WordCountTopK
+import com.home.learn.model.{WordCount, WordInfo}
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._

@@ -1,4 +1,4 @@
-package home.learn
+package com.home.learn
 
 import org.apache.spark.{SparkConf, sql}
 import org.apache.spark.sql.SparkSession

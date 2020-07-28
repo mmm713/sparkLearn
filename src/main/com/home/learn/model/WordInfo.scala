@@ -1,4 +1,4 @@
-package main.com.home.learn.model
+package com.home.learn.model
 
 import java.sql.Timestamp
 

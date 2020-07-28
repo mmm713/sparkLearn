@@ -1,4 +1,4 @@
-package main.com.home.learn
+package com.home.learn
 
 import collection.mutable.Stack
 import org.scalatest._

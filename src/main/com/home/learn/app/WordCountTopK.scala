@@ -1,12 +1,12 @@
-package main.com.home.learn.app
+package com.home.learn.app
 
 import java.sql.Timestamp
 
-import main.com.home.learn.model.WordInfo
+import com.home.learn.model.WordInfo
 import org.apache.spark.streaming.dstream.DStream
 
 object WordCountTopK {
-    def statWordCount(wordStream: DStream[WordInfo], n: Int) = {
+    def statWordCount(wordStream: DStream[WordInfo], n: Int): DStream[(Timestamp, List[(String, Int)])] = {
         val value: DStream[(Timestamp, (String, Int))] = wordStream
             .map(word => ((word.time, word.word), 1))
             .updateStateByKey((seq: Seq[Int], option: Option[Int]) => {

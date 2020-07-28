@@ -1,10 +1,10 @@
-package main.com.home.learn
+package com.home.learn
 
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.TimeZone
 
-import main.com.home.learn.model.{WordCount, WordCounter}
+import com.home.learn.model.{WordCount, WordCounter}
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
@@ -13,7 +13,7 @@ import org.apache.spark.sql.streaming.{OutputMode, Trigger}
 import scala.collection.mutable
 
 object SocketStreaming {
-    val ord = Ordering.by[WordCounter, BigInt](_.count).reverse
+    val ord: Ordering[WordCounter] = Ordering.by[WordCounter, BigInt](_.count).reverse
     def main(args: Array[String]): Unit = {
         //in Mac, run nc -lk 9999 in cmd before running this application
         //in Windows, run nc -l -p 9999
@@ -34,7 +34,7 @@ object SocketStreaming {
             .option("port", 9999)
             .load()
             .as[String]
-            .map(l => WordCount.apply(new Timestamp(System.currentTimeMillis()), l, 1))
+            .map(l => com.home.learn.model.WordCount.apply(new Timestamp(System.currentTimeMillis()), l, 1))
             .as[WordCount]
             .withWatermark("time", "1 seconds")
             .groupBy(window($"time", "1 minutes", "10 seconds") as "time", $"word")
