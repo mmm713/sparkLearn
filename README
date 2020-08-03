@@ -1,0 +1,7 @@
+Build Command
+
+```mvn -DskipTests clean package```
+
+TODO
+
+config resources in pom so that Intellij can auto detect
