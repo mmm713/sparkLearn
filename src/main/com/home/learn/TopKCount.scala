@@ -1,6 +1,6 @@
 package com.home.learn
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.types.IntegerType
 import org.apache.spark.sql.functions._
@@ -17,7 +17,7 @@ object TopKCount {
         spark.sparkContext.setLogLevel("ERROR")
         val records = spark.read.format("csv")
             .option("header", "true")
-            .load("src/main/resources/topk.csv")
+            .load("src/resources/topk.csv")
             .withColumn("count", 'Count.cast(IntegerType))
             .as[Record]
         //spark dataSet方法
@@ -27,7 +27,7 @@ object TopKCount {
         topKCount.drop("rank").show()
         //sparkSql 方法
         records.createOrReplaceTempView("records")
-        val result = records.sqlContext
+        val result: DataFrame = records.sqlContext
             .sql("select user, word, count from (select user, word, sum(count) as count, " +
                 "dense_rank() OVER (PARTITION BY user ORDER BY sum(count) DESC) as rank " +
                 "from records " +

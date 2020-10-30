@@ -18,7 +18,7 @@ object TimeWindow {
         import spark.implicits._
         val accesses = spark.read.format("csv")
             .option("header", "true")
-            .load("src/main/resources/timewindow.csv")
+            .load("src/resources/timewindow.csv")
             .withColumn("time", 'Time.cast(IntegerType))
             .as[Access]
 

@@ -31,13 +31,18 @@
             <version>3.1.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.scopt</groupId>
+            <artifactId>scopt_2.11</artifactId>
+            <version>4.0.0-RC2</version>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src/main/</sourceDirectory>
         <testSourceDirectory>test/main/</testSourceDirectory>
         <resources>
             <resource>
-                <directory>src/main/resources/</directory>
+                <directory>src/resources/</directory>
                 <includes>
                     <include>**/*.csv</include>
                     <include>**/*.txt</include>
@@ -80,6 +85,18 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

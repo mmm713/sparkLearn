@@ -19,7 +19,7 @@ object SocketStreamingTopK {
         val conf = new SparkConf().setMaster("local[*]").setAppName("SocketStreamingTopK")
         conf.set("spark.sql.shuffle.partitions", "5")
         val scc: StreamingContext = new StreamingContext(conf, Seconds(5))
-        scc.checkpoint("src/main/resources/temp/checkpoint/")
+        scc.checkpoint("src/resources/temp/checkpoint/")
         scc.sparkContext.setLogLevel("ERROR")
 
         val wordStream: DStream[WordInfo] = scc.socketTextStream("localhost", 9999, StorageLevel.MEMORY_ONLY)

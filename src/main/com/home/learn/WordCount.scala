@@ -1,6 +1,6 @@
 package com.home.learn
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.functions._
 
 object WordCount {
@@ -10,7 +10,7 @@ object WordCount {
             .appName("WordCount")
             .getOrCreate()
         import spark.implicits._
-        val wordCount = spark.read.text("src/main/resources/word.txt").as[String]
+        val wordCount = spark.read.text("src/resources/word.txt").as[String]
         val wc = wordCount.flatMap(_.split(" ")).map(_.replaceAll("\\pP",""))
             .groupByKey(_.toString).count().sort(desc("count(1)"))
         wc.show()
@@ -20,6 +20,7 @@ object WordCount {
             .toLowerCase().replaceAll("\\pP",""))
         wordCount.sqlContext.sql("select normalize(value) as word, count(*) as count " +
             "from wordCount group by word order by count desc limit 5").show()
+        val df1 = spark.read.text("src/resources/word.txt").na.fill("NULL")
         spark.stop()
     }
 
